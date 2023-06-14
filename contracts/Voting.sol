@@ -23,7 +23,7 @@ contract VotingSystem{
     //adding modifiers for voting end time and owner restrictions
     function vote(uint256 _candidateId) public{
         require(_candidateId>0 && _candidateId<=candidatesCount,"Invalid id ");
-        _;
+         
         candidates[_candidateId].voteCount++;
         emit voteCasted(msg.sender,_candidateId);
     }
@@ -39,4 +39,24 @@ contract VotingSystem{
     }
     event voteCasted(address indexed voter,uint256 candidateId);
 
+    uint256 public votingEndTime;
+    bool public votingEnded;
+    uint256 public winningCandidateId;
+
+    function endVoting() public onlyOwner() onlybeforeVotingends(){
+        votingEnded=true;
+        votingEndTime = block.timestamp;
+        winningCandidateId= getWinningCandidateId();
+    }
+    function getWinningCandidateId() public view returns (uint256){
+        uint256 maxVotes=0;
+        uint256 winnerId;
+        for(uint256 i =0;i<=candidatesCount; i++) {
+            if(candidates[i].voteCount>maxVotes){
+                maxVotes=candidates[i].voteCount;
+                winnerId=i;
+           }
+        }
+        return winnerId; 
+    }
 }
