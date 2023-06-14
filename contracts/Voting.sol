@@ -21,11 +21,22 @@ contract VotingSystem{
         }
     }
     //adding modifiers for voting end time and owner restrictions
+    function vote(uint256 _candidateId) public{
+        require(_candidateId>0 && _candidateId<=candidatesCount,"Invalid id ");
+        _;
+        candidates[_candidateId].voteCount++;
+        emit voteCasted(msg.sender,_candidateId);
+    }
 
     modifier onlyOwner(){
         require(msg.sender==owner,"Only contract owner can call this funcvtion");
         _;
     
     }
+    modifier onlybeforeVotingends(){
+        require(block.timestamp< votingEndTime,"Voting has ended");
+        _;
+    }
+    event voteCasted(address indexed voter,uint256 candidateId);
 
 }
