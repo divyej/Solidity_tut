@@ -25,9 +25,6 @@ contract MarketPlace{
         require(users[msg.sender].isRegistered,"only registered user are allowed");
         _;
      }
-      constrtuctor(){
-    
-     }
     function registeredAsUser(string memory _name) public{
         require(!users[msg.sender].isRegistered,"User already registered"
         );
@@ -35,7 +32,8 @@ contract MarketPlace{
     }
     function purchaseItem(uint256 _itemId) public payable onlyRegisteredUser {
         Item storage selectedItems = items[_itemId];
-        require(!selectedItems.isSold,"item has alread)
+        require(!selectedItems.isSold,"item has already been purchased");
+
 
     }
 
