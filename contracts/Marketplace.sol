@@ -33,7 +33,8 @@ contract MarketPlace{
     function purchaseItem(uint256 _itemId) public payable onlyRegisteredUser {
         Item storage selectedItems = items[_itemId];
         require(!selectedItems.isSold,"item has already been purchased");
-
+        require(msg.value>=selectedItems.price,"not enough balance");
+        
 
     }
 
