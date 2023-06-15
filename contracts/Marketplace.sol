@@ -30,11 +30,17 @@ contract MarketPlace{
         );
         users[msg.sender]=User(_name,true);
     }
+    function listItem(string memory _name,string memory _description, ) onlyRegisteredUser public {
+
+    }
     function purchaseItem(uint256 _itemId) public payable onlyRegisteredUser {
         Item storage selectedItems = items[_itemId];
         require(!selectedItems.isSold,"item has already been purchased");
         require(msg.value>=selectedItems.price,"not enough balance");
-        
+        selectedItems.isSold=true;
+        selectedItems.buyer=payable(msg.sender);
+        selectedItems.seller.transfer(selectedItems.price);
+        emit ItemPurchased(selectedItems.id, selectedItems.name, selectedItems.buyer);
 
     }
 
