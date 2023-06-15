@@ -30,7 +30,10 @@ contract MarketPlace{
         );
         users[msg.sender]=User(_name,true);
     }
-    function listItem(string memory _name,string memory _description, ) onlyRegisteredUser public {
+    function listItem(string memory _name,string memory _description,uint256 _price ,uint256 _quantity ) onlyRegisteredUser public {
+        Item memory newItem = Item(items.length,_name,_description,_price,_quantity,payable(msg.sender),payable(address(0)),false);
+        items.push(newItem);
+        emit ItemListed(newItem.id, newItem.name, newItem.price);
 
     }
     function purchaseItem(uint256 _itemId) public payable onlyRegisteredUser {
