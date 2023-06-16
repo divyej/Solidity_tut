@@ -20,7 +20,7 @@ mapping(uint256 => Project) public projects;
 
 event projectCreated(uint256 projectId,string title,uint256 goalAmount);
 event contributionMade(uint256 projectId, address contributor, uint256 amopunt );
-event projectCompleted(uint256 projextId, string title, uint256 totalAmount);
+event projectCompleted(uint256 projectId, string title, uint256 totalAmount);
 
 function createProject(string memory _title, string memory _description, uint256 _goalAmount ) public{
   projectsCount++;
@@ -46,11 +46,11 @@ emit projectCreated(projectsCount, _title, _goalAmount);
 
     emit contributionMade(_projectId, msg.sender, msg.value);
     if(project.currentAmount>=project.goalAmount){
-        project.isCompleted=msg.value;
-        emit projectCompleted()
+        project.isCompleted=true;
+        emit projectCompleted(_projectId,project.title,project.currentAmount);
     }
     }
  }
 
 
-}
+  
