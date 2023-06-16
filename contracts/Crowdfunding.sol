@@ -50,6 +50,26 @@ emit projectCreated(projectsCount, _title, _goalAmount);
         emit projectCompleted(_projectId,project.title,project.currentAmount);
     }
     }
+    function getProjectDetails(uint256 _projectId) public view returns(address creator,
+    string memory title,
+    string memory description,
+    string memory goalAmount,
+    uint256 currentAmount,
+    uint256 contributionCount,
+    bool isCompleted)
+    {
+        require(_projectId>0 && _projectId<=projectCount,"invalid project id" );
+        Project storage project =projects[_projectId];
+        return(
+            project.creator,
+            project.title,
+            project.description,
+            project.goalAmount,
+            project.currentAmount,
+            project.contributionCount,
+            project.isCompleted
+        );
+    }
  }
 
 
