@@ -35,7 +35,22 @@ function createProject(string memory _title, string memory _description, uint256
   projects[projectsCount].isCompleted=false;
 emit projectCreated(projectsCount, _title, _goalAmount);
 }
+ function contributeProject(uint256 _projectId)payable public {
+    require(_projectId>0&& _projectId<=projectsCount,"project not found ");
+    Project storage project= projects[_projectId];
+    require(!project.isCompleted,"Project has reached its goal");
+    require(msg.value>0,"baklance is not enough ");
+    project.contributions[msg.sender]+=msg.value;
+    project.currentAmount += msg.value;
+    project.contributionCount;
 
+    emit contributionMade(_projectId, msg.sender, msg.value);
+    if(project.currentAmount>=project.goalAmount){
+        project.isCompleted=msg.value;
+        emit projectCompleted()
+    }
+    }
+ }
 
 
 }
