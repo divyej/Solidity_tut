@@ -32,6 +32,8 @@ contract Lottery{
         address payable winner = players[index];
         winner.transfer(address(this).balance);
 
+        emit winnerSelected(winner, address(this).balance);
+
         players = new address payable[](0);
     }
 }

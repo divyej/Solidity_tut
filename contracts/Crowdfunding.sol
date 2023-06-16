@@ -31,7 +31,6 @@ function createProject(string memory _title, string memory _description, uint256
   projects[projectsCount].goalAmount=_goalAmount;
   projects[projectsCount].currentAmount =0;
   projects[projectsCount].contributionCount=0;
-  projects[projectsCount].contributionCount=0;
   projects[projectsCount].isCompleted=false;
 emit projectCreated(projectsCount, _title, _goalAmount);
 }
@@ -42,7 +41,7 @@ emit projectCreated(projectsCount, _title, _goalAmount);
     require(msg.value>0,"baklance is not enough ");
     project.contributions[msg.sender]+=msg.value;
     project.currentAmount += msg.value;
-    project.contributionCount;
+    project.contributionCount++;
 
     emit contributionMade(_projectId, msg.sender, msg.value);
     if(project.currentAmount>=project.goalAmount){
