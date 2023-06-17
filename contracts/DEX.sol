@@ -57,9 +57,13 @@ contract Dex{
          //transfer token from seller 
 
          balances[_tokenAddress][msg.sender]-=_tokenAmount;
-         
+         token.Supply+= _tokenAmount;
 
+         //payment to the seller 
 
+         payable(msg.sender).transfer(totalEarned);
+
+         emit TokenSold(_tokenAddress, msg.sender, _tokenAmount, totalEarned);   
 
     }
 }
