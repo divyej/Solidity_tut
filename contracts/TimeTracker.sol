@@ -8,7 +8,9 @@ contract TimeTracking{
         address worker;
         uint256 startTime;
         uint256 endTime;
-        uint256 hourlyRate
+        uint256 hourlyRate;
+
     }
-    mapping(uint256=>)
+    mapping(uint256=> workTime) public workEntries;
+
 }
