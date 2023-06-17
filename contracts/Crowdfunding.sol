@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: UNLICENSED
 pragma solidity ^0.8.9;
 
-contract CrowdFuhding{
+contract CrowdFunding{
 struct Project{
 uint256 id;
 address creator;
