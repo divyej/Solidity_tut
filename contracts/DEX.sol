@@ -43,11 +43,23 @@ contract Dex{
         balances[_tokenAddress][msg.sender]+=_tokenAmount;
         token.Supply -= _tokenAmount;
         if(msg.value>totalCost){
-        emit TokenBought(_tokenAddress, msg.sender, _tokenAmount, totalCost);
+         payable(msg.sender).transfer(msg.value-totalCost);
         }
-        
+         emit TokenBought(_tokenAddress, msg.sender, _tokenAmount, totalCost);
+    }
+
+    function sellToken(address _tokenAddress , uint256 _tokenAmount) public payable{
+        Token storage token = tokens[_tokenAddress];
+         require(token.tokenAddress!=address(0),"no such token found");
+         require(balances[_tokenAddress][msg.sender]>=_tokenAmount,"insuffucint balance");
+         uint256 totalEarned = token.Price * _tokenAmount;
+
+         //transfer token from seller 
+
+         balances[_tokenAddress][msg.sender]-=_tokenAmount;
+         
+
 
 
     }
-
 }
