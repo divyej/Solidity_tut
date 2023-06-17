@@ -13,6 +13,8 @@ contract TimeTracking{
     mapping(uint256=> workTime) public workEntries;
     uint256 public entryCount;
 
+    event workEntryRecorded(uint256 indexed entryId, address indexed worker , uint256 startTime, uint256 endTime , uint256 hourlyRate);
+
     constructor(){
         entryCount=0;
     }
@@ -21,6 +23,10 @@ contract TimeTracking{
         require(_startTime<_endTime,"invalid time range");
         entryCount++;
         workEntries[entryCount]= workTime(entryCount,msg.sender,_startTime,_endTime,_hourlyRate);
- 
+
+        emit workEntryRecorded(entryCount, msg.sender, _startTime, _endTime, _hourlyRate);
+   }
+   function calculatePayment(uint256 _entryId)  public view returns(uint256){
+    
    }
 }
