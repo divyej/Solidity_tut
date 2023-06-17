@@ -27,6 +27,13 @@ contract TimeTracking{
         emit workEntryRecorded(entryCount, msg.sender, _startTime, _endTime, _hourlyRate);
    }
    function calculatePayment(uint256 _entryId)  public view returns(uint256){
-    
+    require(_entryId>0 && _entryId<=entryCount,"provide valid id" );
+
+    workTime storage entry = workEntries[_entryId];
+    uint256 hoursWorked =entry.endTime - entry.startTime;
+    uint256 payment = hoursWorked* entry.hourlyRate;
+
+    return payment;
+
    }
 }
