@@ -7,10 +7,11 @@ contract Dex{
         address tokenAddress;
         uint256 Price;
         uint256 Supply;
-        mapping(address => uint256) balances;
     }
     mapping(address => Token) public tokens;
     address[] public supportedTokens;
+    //a struct cant be constructed with nested mapping 
+    mapping(address => mapping(address=>uint256)) public balances;
 
     event TokenAdded(address tokenAddress, uint256 price, uint256 Supply );
     event TokenBought(address tokenAddress , address buyer , uint256 Amount, uint256 totalCost);
@@ -22,7 +23,25 @@ contract Dex{
 
     function addToken(address _tokenAddress, uint256 _price , uint256 _Supply) public {
         require(tokens[_tokenAddress].tokenAddress==address(0),"token already exists");
-       
+        Token memory newToken = Token(_tokenAddress,
+        _price,
+        _Supply
+        ) ;
+        tokens[_tokenAddress]=newToken;
+        supportedTokens.push(_tokenAddress);
+        emit TokenAdded(_tokenAddress, _price, _Supply);
+    }
+
+    function buyToken(address _tokenAddress , uint256 _tokenAmount) public payable{
+        Token storage token = tokens[_tokenAddress];
+        require(token.tokenAddress!=address(0),"no such token found");
+        require(token.Supply>=_tokenAmount,"insufficient token supply");
+        uint256 totalCost = token.Price*(_tokenAmount);
+        require(msg.value>totalCost,"insufficientFaunds");
+
+//the user addresses holds the number of token
+        balances[_tokenAddress][msg.sender]+=_tokenAmount;
+
     }
 
 }
