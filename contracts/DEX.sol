@@ -42,6 +42,9 @@ contract Dex{
 //the user addresses holds the number of token
         balances[_tokenAddress][msg.sender]+=_tokenAmount;
         token.Supply -= _tokenAmount;
+//transferring payment to the contract
+         payable(address(this)).transfer(totalCost);
+
         if(msg.value>totalCost){
          payable(msg.sender).transfer(msg.value-totalCost);
         }
