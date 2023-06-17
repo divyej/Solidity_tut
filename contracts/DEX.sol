@@ -45,7 +45,7 @@ contract Dex{
 //transferring payment to the contract
          payable(address(this)).transfer(totalCost);
 
-        if(msg.value>totalCost){
+         if(msg.value>totalCost){
          payable(msg.sender).transfer(msg.value-totalCost);
         }
          emit TokenBought(_tokenAddress, msg.sender, _tokenAmount, totalCost);
