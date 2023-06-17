@@ -41,6 +41,12 @@ contract Dex{
 
 //the user addresses holds the number of token
         balances[_tokenAddress][msg.sender]+=_tokenAmount;
+        token.Supply -= _tokenAmount;
+        if(msg.value>totalCost){
+        emit TokenBought(_tokenAddress, msg.sender, _tokenAmount, totalCost);
+        }
+        
+
 
     }
 
